@@ -1,0 +1,332 @@
+From email at t22.nl  Fri Mar  3 15:34:38 2006
+From: email at t22.nl (Vincent Weevers)
+Date: Fri, 3 Mar 2006 15:34:38 +0100
+Subject: [Simuze-hackers] Versions
+References: <001d01c638a4$225d4e10$9800000a@T22> <43FECFBF.2090703@bdisfunctional.net>
+Message-ID: <005a01c63ecf$9ac4d0e0$9800000a@T22>
+
+Hej Bjorn,
+
+I now roughly have the same versions as you do. Version 5 of mysql is indeed 
+not very widespread, but you don't see php5 everywhere either. But as long 
+as mysql 4.1 will be enough, we can use it.
+
+The input class is not in my favor anymore. If one would use the input class 
+to put data into the database, which class would he use to get data out of 
+the database? I'm searching for a simple basic object model, but I'm 
+starting to think that's not possible. Anyway, I've put a quickly drawn 
+class diagram on the wiki and a very limited validation class in the svn 
+repository. The class diagram seems messy (and it is), nearly no relations 
+are drawn and I hope I used the right symbols and all, but it's a start. By 
+the way, your code says WriterHTML but in a later mail you said HTMLWriter. 
+The latter seems more obvious, what's the official name? Also, I figured the 
+Writer class could also be extended by a EmailWriter class.
+
+What are your ideas about a user/session class? And there also has to be a 
+class for accessing properties of other users. What are you thinking?
+
+greetings, Vincent
+
+PS. I want to change my email-address in the simuze-hackers list, should I 
+just unsubscribe and then subscribe with my new emailaddress? I'll be in the 
+digested members list if I do that, don't know what that means.
+
+----- Original Message ----- 
+From: "Bjorn Wijers" <mailings at bdisfunctional.net>
+To: <triple22.88 at gmail.com>
+Cc: "Simuze-hackers" <simuze-hackers at lists.berlios.de>
+Sent: Friday, February 24, 2006 10:19 AM
+Subject: Re: [Simuze-hackers] Versions
+
+
+> Ha Vincent,
+>
+> Yeah, I still want to use php5. My versions:
+>
+> - php5 (5.05 on Linux)
+> - php5 (5.04 on OS X)
+> - Phpdoc 1.3.0RC5
+> - PHPUnit2 (version 2.3.4 on Linux via PEAR)
+> - MySQL database (4.1.12)
+>
+> I'm not completly sure on the db part if we should start using the more 
+> usefull, but also more 'high-tech' features of MySQL or that we should try 
+> to stay quite simple so we/others can also very easily change 
+> databases...For now I would say we can focus on mysql4.1 as the latest 
+> version. Version 5 is already there, but as far as I know not as 
+> widespread yet for shared hosts etc. And I would like to make Simuze as 
+> accessible as possible (otherwise I would have built it on Ruby on Rails 
+> :))
+>
+> grtz
+> BjornW
+>
+>
+> triple22.88 at gmail.com wrote:
+>> Hi Bjorn,
+>>  You mentioned some time you wanted to do it in php5. Is this still the 
+>> case? Because then I should get me php 5 and phpunit2. And I assume 
+>> you're using the latest stable phpdocumenter.
+>>  Greetings, Vincent 
+
+
+
+From mailings at bdisfunctional.net  Mon Mar  6 18:29:10 2006
+From: mailings at bdisfunctional.net (Bjorn Wijers)
+Date: Mon, 06 Mar 2006 18:29:10 +0100
+Subject: [Simuze-hackers] Versions
+In-Reply-To: <005a01c63ecf$9ac4d0e0$9800000a@T22>
+References: <001d01c638a4$225d4e10$9800000a@T22> <43FECFBF.2090703@bdisfunctional.net> <005a01c63ecf$9ac4d0e0$9800000a@T22>
+Message-ID: <440C7166.8070907@bdisfunctional.net>
+
+He Vincent,
+
+Sorry for the delay, at the moment its quite hectic because I'm doing 
+some projects besides work and Simuze.
+
+Oh, MySQL 5 is very interesting, but for our purposes I think we don't 
+need the new features of MySQL 5 so thats also part of the reason to 
+stick with 4.x
+
+I've been looking into some info about the way that we can handle these 
+things without re-inventing the wheel over and over again, maybe we 
+should investigate our options a bit more widely and see if there are 
+any nicely coded and not too bloated frameworks (Symphony?) or libs that 
+can help us with this. On the other hand its also very nice if we can 
+setup a system that does exactly as we wish and not be (too) depended on 
+external parties.
+
+As for your class diagram and your code I'll look into it tonight, as I 
+am now typing this in the train and I don't have any WiFi..so I can't 
+check it right now.
+
+I agree on the name issue. Lets go for more logical and rename the class 
+to HTMLWriter instead of WriterHTML. I used the latter to make clear its 
+an extension of the Writer class, but its confusing..so we change it :)
+
+My idea about a session/user class is that we basically should have only 
+one global var in the session that handles everything that has to do 
+with Simuze. Ie this global var contains all the instances we would 
+need..but maybe we should test this first.
+
+ps: Digest means that you will get all the emails of one day in one 
+email instead of each email seperately. You can change this option as 
+you see fit.
+
+
+
+Vincent Weevers wrote:
+> Hej Bjorn,
+> 
+> I now roughly have the same versions as you do. Version 5 of mysql is 
+> indeed not very widespread, but you don't see php5 everywhere either. 
+> But as long as mysql 4.1 will be enough, we can use it.
+> 
+> The input class is not in my favor anymore. If one would use the input 
+> class to put data into the database, which class would he use to get 
+> data out of the database? I'm searching for a simple basic object model, 
+> but I'm starting to think that's not possible. Anyway, I've put a 
+> quickly drawn class diagram on the wiki and a very limited validation 
+> class in the svn repository. The class diagram seems messy (and it is), 
+> nearly no relations are drawn and I hope I used the right symbols and 
+> all, but it's a start. By the way, your code says WriterHTML but in a 
+> later mail you said HTMLWriter. The latter seems more obvious, what's 
+> the official name? Also, I figured the Writer class could also be 
+> extended by a EmailWriter class.
+> 
+> What are your ideas about a user/session class? And there also has to be 
+> a class for accessing properties of other users. What are you thinking?
+> 
+> greetings, Vincent
+> 
+> PS. I want to change my email-address in the simuze-hackers list, should 
+> I just unsubscribe and then subscribe with my new emailaddress? I'll be 
+> in the digested members list if I do that, don't know what that means.
+> 
+> ----- Original Message ----- From: "Bjorn Wijers" 
+> <mailings at bdisfunctional.net>
+> To: <triple22.88 at gmail.com>
+> Cc: "Simuze-hackers" <simuze-hackers at lists.berlios.de>
+> Sent: Friday, February 24, 2006 10:19 AM
+> Subject: Re: [Simuze-hackers] Versions
+> 
+> 
+>> Ha Vincent,
+>>
+>> Yeah, I still want to use php5. My versions:
+>>
+>> - php5 (5.05 on Linux)
+>> - php5 (5.04 on OS X)
+>> - Phpdoc 1.3.0RC5
+>> - PHPUnit2 (version 2.3.4 on Linux via PEAR)
+>> - MySQL database (4.1.12)
+>>
+>> I'm not completly sure on the db part if we should start using the 
+>> more usefull, but also more 'high-tech' features of MySQL or that we 
+>> should try to stay quite simple so we/others can also very easily 
+>> change databases...For now I would say we can focus on mysql4.1 as the 
+>> latest version. Version 5 is already there, but as far as I know not 
+>> as widespread yet for shared hosts etc. And I would like to make 
+>> Simuze as accessible as possible (otherwise I would have built it on 
+>> Ruby on Rails :))
+>>
+>> grtz
+>> BjornW
+>>
+>>
+>> triple22.88 at gmail.com wrote:
+>>> Hi Bjorn,
+>>>  You mentioned some time you wanted to do it in php5. Is this still 
+>>> the case? Because then I should get me php 5 and phpunit2. And I 
+>>> assume you're using the latest stable phpdocumenter.
+>>>  Greetings, Vincent 
+> 
+> _______________________________________________
+> Simuze-hackers mailing list
+> Simuze-hackers at lists.berlios.de
+> http://lists.berlios.de/mailman/listinfo/simuze-hackers
+> 
+
+
+
+From bjorn at simuze.nl  Mon Mar  6 21:08:14 2006
+From: bjorn at simuze.nl (Bjorn Wijers)
+Date: Mon, 06 Mar 2006 21:08:14 +0100
+Subject: [Simuze-hackers] Validator class
+Message-ID: <440C96AE.40604@simuze.nl>
+
+He Vincent,
+
+The class looks neat. Have you tried to write some tests for it with 
+phpunit, already? I will upload my documentation about it on the wiki 
+tonight. The diagram is not that clear to me yet, I'll try to work with 
+and build further upon it. Don't worry about the symbols and that stuff, 
+as long as you use a consistent system and explain it (legenda) it will 
+work, because we 'only' need it to communicate our ideas and not compete 
+for the best looking diagram ;)
+
+take care,
+
+grtz
+BjornW
+
+
+From email at t22.nl  Sat Mar 18 19:32:23 2006
+From: email at t22.nl (Vincent Weevers)
+Date: Sat, 18 Mar 2006 19:32:23 +0100
+Subject: [Simuze-hackers] Versions
+References: <001d01c638a4$225d4e10$9800000a@T22> <43FECFBF.2090703@bdisfunctional.net> <005a01c63ecf$9ac4d0e0$9800000a@T22> <440C7166.8070907@bdisfunctional.net>
+Message-ID: <003501c64aba$4cc6fe80$9b00000a@T22>
+
+Hi Bjorn,
+
+> I've been looking into some info about the way that we can handle these 
+> things without re-inventing the wheel over and over again, maybe we should 
+> investigate our options a bit more widely and see if there are any nicely 
+> coded and not too bloated frameworks (Symphony?) or libs that can help us 
+> with this. On the other hand its also very nice if we can setup a system 
+> that does exactly as we wish and not be (too) depended on external 
+> parties.
+
+The wheel gets reinvented an awfull lot of times... A framework can help us, 
+though indeeed we don't want overhead. I've been googling a bit, I stumbled 
+upon this: http://www.mustap.com/phpzone_post_73_top-10-php-mvc-frameworks: 
+Symfony is the winner. We must determine whether it's usable for us. I'm 
+worried about extensions for Simuze, how that will go with a framework. 
+Another option would be to 'borrow' some classes from Lussumo.
+
+> The class looks neat. Have you tried to write some tests for it with 
+> phpunit, already? I will upload my documentation about it on the wiki 
+> tonight. The diagram is not that clear to me yet, I'll try to work with 
+> and build further upon it. Don't worry about the symbols and that stuff, 
+> as long as you use a consistent system and explain it (legenda) it will 
+> work, because we 'only' need it to communicate our ideas and not compete 
+> for the best looking diagram ;)
+
+PHPUnit is still waiting for my dive into it, sorry. The diagram is indeed a 
+bit vague, it's a UML class-diagram and I'm new to that too.
+
+Greetings, Vincent
+
+
+
+
+From mailings at bdisfunctional.net  Mon Mar 20 16:57:17 2006
+From: mailings at bdisfunctional.net (Bjorn Wijers)
+Date: Mon, 20 Mar 2006 16:57:17 +0100
+Subject: [Simuze-hackers] framework
+In-Reply-To: <003501c64aba$4cc6fe80$9b00000a@T22>
+References: <001d01c638a4$225d4e10$9800000a@T22> <43FECFBF.2090703@bdisfunctional.net> <005a01c63ecf$9ac4d0e0$9800000a@T22> <440C7166.8070907@bdisfunctional.net> <003501c64aba$4cc6fe80$9b00000a@T22>
+Message-ID: <441ED0DD.80203@bdisfunctional.net>
+
+Vincent,
+
+At the pace that we're developing Simuze v2 we need to find a framework 
+that takes a lot of time of our hands without too much overhead, so we 
+can focus on the important stuff. I'm going to try out Symphony, because 
+  I will need a php framework anyhow for some of my projects. The things 
+I am looking for in a framework are:
+
+- license (open ssource)
+- easy to extend
+- easy to distribute (PEAR?)
+- easy to translate
+- easy to update (uses rsync for updating a live site..and the framework 
+itself can be updated using PEAR)
+- easy to test (phpunit or similar)
+- easy to document (phpDocumentor for instance)
+
+and it seems that Symphony does this.I also found this podcast about 
+Symphony, haven't listened to it yet:
+
+http://podcast.phparch.com/main/index.php/episodes:20060210
+
+Would you also please try out Symphony and tell us what you think about it?
+
+grtz
+BjornW
+
+
+
+
+
+Vincent Weevers wrote:
+> Hi Bjorn,
+> 
+>> I've been looking into some info about the way that we can handle 
+>> these things without re-inventing the wheel over and over again, maybe 
+>> we should investigate our options a bit more widely and see if there 
+>> are any nicely coded and not too bloated frameworks (Symphony?) or 
+>> libs that can help us with this. On the other hand its also very nice 
+>> if we can setup a system that does exactly as we wish and not be (too) 
+>> depended on external parties.
+> 
+> The wheel gets reinvented an awfull lot of times... A framework can help 
+> us, though indeeed we don't want overhead. I've been googling a bit, I 
+> stumbled upon this: 
+> http://www.mustap.com/phpzone_post_73_top-10-php-mvc-frameworks: Symfony 
+> is the winner. We must determine whether it's usable for us. I'm worried 
+> about extensions for Simuze, how that will go with a framework. Another 
+> option would be to 'borrow' some classes from Lussumo.
+> 
+>> The class looks neat. Have you tried to write some tests for it with 
+>> phpunit, already? I will upload my documentation about it on the wiki 
+>> tonight. The diagram is not that clear to me yet, I'll try to work 
+>> with and build further upon it. Don't worry about the symbols and that 
+>> stuff, as long as you use a consistent system and explain it (legenda) 
+>> it will work, because we 'only' need it to communicate our ideas and 
+>> not compete for the best looking diagram ;)
+> 
+> PHPUnit is still waiting for my dive into it, sorry. The diagram is 
+> indeed a bit vague, it's a UML class-diagram and I'm new to that too.
+> 
+> Greetings, Vincent
+> 
+> 
+> _______________________________________________
+> Simuze-hackers mailing list
+> Simuze-hackers at lists.berlios.de
+> http://lists.berlios.de/mailman/listinfo/simuze-hackers
+> 
+
+

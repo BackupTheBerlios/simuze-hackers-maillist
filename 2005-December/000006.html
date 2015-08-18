@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Simuze-hackers] XSPF Playlists
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/simuze-hackers/2005-December/index.html" >
+   <LINK REL="made" HREF="mailto:simuze-hackers%40lists.berlios.de?Subject=Re%3A%20%5BSimuze-hackers%5D%20XSPF%20Playlists&In-Reply-To=%3C43A923C9.6020503%40bdisfunctional.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000005.html">
+   <LINK REL="Next"  HREF="000007.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Simuze-hackers] XSPF Playlists</H1>
+    <B>Bjorn Wijers</B> 
+    <A HREF="mailto:simuze-hackers%40lists.berlios.de?Subject=Re%3A%20%5BSimuze-hackers%5D%20XSPF%20Playlists&In-Reply-To=%3C43A923C9.6020503%40bdisfunctional.net%3E"
+       TITLE="[Simuze-hackers] XSPF Playlists">mailings at bdisfunctional.net
+       </A><BR>
+    <I>Wed Dec 21 10:43:37 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000005.html">[Simuze-hackers] XSPF Playlists
+</A></li>
+        <LI>Next message: <A HREF="000007.html">[Simuze-hackers] Re: [Simuze-hackers]
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#6">[ date ]</a>
+              <a href="thread.html#6">[ thread ]</a>
+              <a href="subject.html#6">[ subject ]</a>
+              <a href="author.html#6">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Vincent,
+
+&gt;<i> Sounds perfectly balanced to me. But, correct me if I'm wrong, if you 
+</I>&gt;<i> want to update the playlist, you would need to change the contents of 
+</I>&gt;<i> the db and also generate a new XSPF file.
+</I>
+Yep, thats true. But at this point users cannot change the contents of 
+the playlist, so in the end we probably have to investigate what works 
+better. For now this seems to work quite well.
+
+&gt;<i> And about the Simuze versions: I didn't know that there are different 
+</I>&gt;<i> versions, and what their purpose is.
+</I>
+Well, this was discussed offlist between Marten and me, so nobody knew 
+about it until now ;).
+
+The reason for having two versions is that Simuze v1 is the one that we 
+use at http:/www.simuze.nl/live and the Simuze v2 will be its successor.
+
+The differences:
+
+Simuze v1 is made in php4 and more or less hacked together. It works but 
+its a pain to maintain or update this version. For example we have glued 
+some code between Simuze and Wordpress, created a cron based deamon that 
+takes care of the music encoding/anti-virus stuff etc. It works for us, 
+we know what to do, but if anybody else wants to help out it's almost 
+impossible for them. So we want to maintain version 1 and start with the 
+development of version 2 and learn from our misstakes.
+
+Simuze v2 will probably be built in php5 and we will use a more OO based 
+approach. One of the things we will do this time is focus on the core 
+functionality of Simuze and implement some sort of plugin system for 
+everything outside this core.
+
+As you might notice a lot is still open for discussion. I would like to 
+discuss this further so any ideas, plans feel free...
+
+&gt;<i> And at this moment the svn 
+</I>&gt;<i> repository seems pretty empty. 
+</I>
+Correct. I made a misstake and this resulted in a not usable SVN repos. 
+Berlios helped me out and the SVN repos can be used again. I will import 
+Simuze v1 back in again tomorrow and also create a Simuze v2 branch.
+
+
+Please tell me more about this (or is
+&gt;<i> there something on the internet that I can read?)
+</I>
+There is getting more and more at the Simuze Wiki 
+(<A HREF="http://simuze.berlios.de">http://simuze.berlios.de</A>) about the proposed ideas and methodology. 
+Feel free to send comments on this list or add your thoughts to the wiki.
+
+
+&gt;<i> PS. Can you also tell me something about the people involved in Simuze 
+</I>&gt;<i> (for example, how many?), if you don't mind?
+</I>
+No problem.
+
+We started with two: Marten Timan and me. After a while we had some 
+people on the old mailinglist who wanted to help out, but we had no idea 
+how to do this considering the state of Simuze, so in the end this kinda 
+faded away (Can't blame them..) and we're now with three? If you would 
+like to help out with Simuze v2 ;)
+
+If you don't mind me asking, can you tell a bit more about yourself like 
+skills, preferences, favourite pancake ;)
+
+grtz
+BjornW
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000005.html">[Simuze-hackers] XSPF Playlists
+</A></li>
+	<LI>Next message: <A HREF="000007.html">[Simuze-hackers] Re: [Simuze-hackers]
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#6">[ date ]</a>
+              <a href="thread.html#6">[ thread ]</a>
+              <a href="subject.html#6">[ subject ]</a>
+              <a href="author.html#6">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/simuze-hackers">More information about the Simuze-hackers
+mailing list</a><br>
+</body></html>

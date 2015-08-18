@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Simuze-hackers] i/o classes
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/simuze-hackers/2006-February/index.html" >
+   <LINK REL="made" HREF="mailto:simuze-hackers%40lists.berlios.de?Subject=Re%3A%20%5BSimuze-hackers%5D%20i/o%20classes&In-Reply-To=%3C002301c6384a%24dfaba020%249800000a%40okl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000017.html">
+   <LINK REL="Next"  HREF="000019.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Simuze-hackers] i/o classes</H1>
+    <B>triple22.88 at gmail.com</B> 
+    <A HREF="mailto:simuze-hackers%40lists.berlios.de?Subject=Re%3A%20%5BSimuze-hackers%5D%20i/o%20classes&In-Reply-To=%3C002301c6384a%24dfaba020%249800000a%40okl%3E"
+       TITLE="[Simuze-hackers] i/o classes">triple22.88 at gmail.com
+       </A><BR>
+    <I>Thu Feb 23 08:29:13 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000017.html">[Simuze-hackers] svn restored..
+</A></li>
+        <LI>Next message: <A HREF="000019.html">[Simuze-hackers] i/o classes
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#18">[ date ]</a>
+              <a href="thread.html#18">[ thread ]</a>
+              <a href="subject.html#18">[ subject ]</a>
+              <a href="author.html#18">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Bjorn,
+
+My name on Berlios is &quot;t22&quot;. Don't ask why :). I've taken a quick look at your code, mostly comments though ;). The syntax and all for phpdocumentor seems pretty straight-forward. But phpunit doesn't, so I'm keeping an eye on the wiki. And about subversion: that's new to me, I'll read some manual later on. I didn't face any problems so far with subversion.
+
+For the sake of clarity, I figured that we should use an input and an output class. Some layer in between is a good idea, because the input and output classes probably need to share some methods (validation, conversion, etc). So that is going to be another class. Using these three classes developers can use an 'open core' to develop extensions using functions offered by the simuze core.
+
+This is the structure of the classes with their methods and extended classes etc, how it's stored in my head right now.
+
+Input class
+- Form (or maybe some general class that accepts arrays..?)
+- Database
+- File
+
+Output class
+- Writer
+- - HTMLWriter (including a method to write a form)
+- - RSSWriter
+- - etc
+- Email
+
+'In between' class
+- validation
+- conversion (for audio files etc)
+- encoding
+
+So, for example, when putting a form on page:
+
+- A form will be written using HTMLWriter
+- When submitted by user, the Form class handles the data
+- Bad user input? Toss it back to HTMLWriter
+- Good user input? Save it via the Database or File class
+
+Well, I was just thinking.
+
+Greetings, Vincent
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/simuze-hackers/attachments/20060223/c70c9a94/attachment.html">https://lists.berlios.de/pipermail/simuze-hackers/attachments/20060223/c70c9a94/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000017.html">[Simuze-hackers] svn restored..
+</A></li>
+	<LI>Next message: <A HREF="000019.html">[Simuze-hackers] i/o classes
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#18">[ date ]</a>
+              <a href="thread.html#18">[ thread ]</a>
+              <a href="subject.html#18">[ subject ]</a>
+              <a href="author.html#18">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/simuze-hackers">More information about the Simuze-hackers
+mailing list</a><br>
+</body></html>

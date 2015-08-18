@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Simuze-hackers] Versions
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/simuze-hackers/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:simuze-hackers%40lists.berlios.de?Subject=Re%3A%20%5BSimuze-hackers%5D%20Versions&In-Reply-To=%3C440C7166.8070907%40bdisfunctional.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000023.html">
+   <LINK REL="Next"  HREF="000026.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Simuze-hackers] Versions</H1>
+    <B>Bjorn Wijers</B> 
+    <A HREF="mailto:simuze-hackers%40lists.berlios.de?Subject=Re%3A%20%5BSimuze-hackers%5D%20Versions&In-Reply-To=%3C440C7166.8070907%40bdisfunctional.net%3E"
+       TITLE="[Simuze-hackers] Versions">mailings at bdisfunctional.net
+       </A><BR>
+    <I>Mon Mar  6 18:29:10 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000023.html">[Simuze-hackers] Versions
+</A></li>
+        <LI>Next message: <A HREF="000026.html">[Simuze-hackers] Versions
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#24">[ date ]</a>
+              <a href="thread.html#24">[ thread ]</a>
+              <a href="subject.html#24">[ subject ]</a>
+              <a href="author.html#24">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>He Vincent,
+
+Sorry for the delay, at the moment its quite hectic because I'm doing 
+some projects besides work and Simuze.
+
+Oh, MySQL 5 is very interesting, but for our purposes I think we don't 
+need the new features of MySQL 5 so thats also part of the reason to 
+stick with 4.x
+
+I've been looking into some info about the way that we can handle these 
+things without re-inventing the wheel over and over again, maybe we 
+should investigate our options a bit more widely and see if there are 
+any nicely coded and not too bloated frameworks (Symphony?) or libs that 
+can help us with this. On the other hand its also very nice if we can 
+setup a system that does exactly as we wish and not be (too) depended on 
+external parties.
+
+As for your class diagram and your code I'll look into it tonight, as I 
+am now typing this in the train and I don't have any WiFi..so I can't 
+check it right now.
+
+I agree on the name issue. Lets go for more logical and rename the class 
+to HTMLWriter instead of WriterHTML. I used the latter to make clear its 
+an extension of the Writer class, but its confusing..so we change it :)
+
+My idea about a session/user class is that we basically should have only 
+one global var in the session that handles everything that has to do 
+with Simuze. Ie this global var contains all the instances we would 
+need..but maybe we should test this first.
+
+ps: Digest means that you will get all the emails of one day in one 
+email instead of each email seperately. You can change this option as 
+you see fit.
+
+
+
+Vincent Weevers wrote:
+&gt;<i> Hej Bjorn,
+</I>&gt;<i> 
+</I>&gt;<i> I now roughly have the same versions as you do. Version 5 of mysql is 
+</I>&gt;<i> indeed not very widespread, but you don't see php5 everywhere either. 
+</I>&gt;<i> But as long as mysql 4.1 will be enough, we can use it.
+</I>&gt;<i> 
+</I>&gt;<i> The input class is not in my favor anymore. If one would use the input 
+</I>&gt;<i> class to put data into the database, which class would he use to get 
+</I>&gt;<i> data out of the database? I'm searching for a simple basic object model, 
+</I>&gt;<i> but I'm starting to think that's not possible. Anyway, I've put a 
+</I>&gt;<i> quickly drawn class diagram on the wiki and a very limited validation 
+</I>&gt;<i> class in the svn repository. The class diagram seems messy (and it is), 
+</I>&gt;<i> nearly no relations are drawn and I hope I used the right symbols and 
+</I>&gt;<i> all, but it's a start. By the way, your code says WriterHTML but in a 
+</I>&gt;<i> later mail you said HTMLWriter. The latter seems more obvious, what's 
+</I>&gt;<i> the official name? Also, I figured the Writer class could also be 
+</I>&gt;<i> extended by a EmailWriter class.
+</I>&gt;<i> 
+</I>&gt;<i> What are your ideas about a user/session class? And there also has to be 
+</I>&gt;<i> a class for accessing properties of other users. What are you thinking?
+</I>&gt;<i> 
+</I>&gt;<i> greetings, Vincent
+</I>&gt;<i> 
+</I>&gt;<i> PS. I want to change my email-address in the simuze-hackers list, should 
+</I>&gt;<i> I just unsubscribe and then subscribe with my new emailaddress? I'll be 
+</I>&gt;<i> in the digested members list if I do that, don't know what that means.
+</I>&gt;<i> 
+</I>&gt;<i> ----- Original Message ----- From: &quot;Bjorn Wijers&quot; 
+</I>&gt;<i> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/simuze-hackers">mailings at bdisfunctional.net</A>&gt;
+</I>&gt;<i> To: &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/simuze-hackers">triple22.88 at gmail.com</A>&gt;
+</I>&gt;<i> Cc: &quot;Simuze-hackers&quot; &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/simuze-hackers">simuze-hackers at lists.berlios.de</A>&gt;
+</I>&gt;<i> Sent: Friday, February 24, 2006 10:19 AM
+</I>&gt;<i> Subject: Re: [Simuze-hackers] Versions
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;&gt;<i> Ha Vincent,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Yeah, I still want to use php5. My versions:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> - php5 (5.05 on Linux)
+</I>&gt;&gt;<i> - php5 (5.04 on OS X)
+</I>&gt;&gt;<i> - Phpdoc 1.3.0RC5
+</I>&gt;&gt;<i> - PHPUnit2 (version 2.3.4 on Linux via PEAR)
+</I>&gt;&gt;<i> - MySQL database (4.1.12)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I'm not completly sure on the db part if we should start using the 
+</I>&gt;&gt;<i> more usefull, but also more 'high-tech' features of MySQL or that we 
+</I>&gt;&gt;<i> should try to stay quite simple so we/others can also very easily 
+</I>&gt;&gt;<i> change databases...For now I would say we can focus on mysql4.1 as the 
+</I>&gt;&gt;<i> latest version. Version 5 is already there, but as far as I know not 
+</I>&gt;&gt;<i> as widespread yet for shared hosts etc. And I would like to make 
+</I>&gt;&gt;<i> Simuze as accessible as possible (otherwise I would have built it on 
+</I>&gt;&gt;<i> Ruby on Rails :))
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> grtz
+</I>&gt;&gt;<i> BjornW
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/simuze-hackers">triple22.88 at gmail.com</A> wrote:
+</I>&gt;&gt;&gt;<i> Hi Bjorn,
+</I>&gt;&gt;&gt;<i>  You mentioned some time you wanted to do it in php5. Is this still 
+</I>&gt;&gt;&gt;<i> the case? Because then I should get me php 5 and phpunit2. And I 
+</I>&gt;&gt;&gt;<i> assume you're using the latest stable phpdocumenter.
+</I>&gt;&gt;&gt;<i>  Greetings, Vincent 
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Simuze-hackers mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/simuze-hackers">Simuze-hackers at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="http://lists.berlios.de/mailman/listinfo/simuze-hackers">http://lists.berlios.de/mailman/listinfo/simuze-hackers</A>
+</I>&gt;<i> 
+</I>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000023.html">[Simuze-hackers] Versions
+</A></li>
+	<LI>Next message: <A HREF="000026.html">[Simuze-hackers] Versions
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#24">[ date ]</a>
+              <a href="thread.html#24">[ thread ]</a>
+              <a href="subject.html#24">[ subject ]</a>
+              <a href="author.html#24">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/simuze-hackers">More information about the Simuze-hackers
+mailing list</a><br>
+</body></html>

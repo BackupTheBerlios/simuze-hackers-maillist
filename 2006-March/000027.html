@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Simuze-hackers] framework
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/simuze-hackers/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:simuze-hackers%40lists.berlios.de?Subject=Re%3A%20%5BSimuze-hackers%5D%20framework&In-Reply-To=%3C441ED0DD.80203%40bdisfunctional.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000026.html">
+   <LINK REL="Next"  HREF="000025.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Simuze-hackers] framework</H1>
+    <B>Bjorn Wijers</B> 
+    <A HREF="mailto:simuze-hackers%40lists.berlios.de?Subject=Re%3A%20%5BSimuze-hackers%5D%20framework&In-Reply-To=%3C441ED0DD.80203%40bdisfunctional.net%3E"
+       TITLE="[Simuze-hackers] framework">mailings at bdisfunctional.net
+       </A><BR>
+    <I>Mon Mar 20 16:57:17 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000026.html">[Simuze-hackers] Versions
+</A></li>
+        <LI>Next message: <A HREF="000025.html">[Simuze-hackers] Validator class
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#27">[ date ]</a>
+              <a href="thread.html#27">[ thread ]</a>
+              <a href="subject.html#27">[ subject ]</a>
+              <a href="author.html#27">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Vincent,
+
+At the pace that we're developing Simuze v2 we need to find a framework 
+that takes a lot of time of our hands without too much overhead, so we 
+can focus on the important stuff. I'm going to try out Symphony, because 
+  I will need a php framework anyhow for some of my projects. The things 
+I am looking for in a framework are:
+
+- license (open ssource)
+- easy to extend
+- easy to distribute (PEAR?)
+- easy to translate
+- easy to update (uses rsync for updating a live site..and the framework 
+itself can be updated using PEAR)
+- easy to test (phpunit or similar)
+- easy to document (phpDocumentor for instance)
+
+and it seems that Symphony does this.I also found this podcast about 
+Symphony, haven't listened to it yet:
+
+<A HREF="http://podcast.phparch.com/main/index.php/episodes:20060210">http://podcast.phparch.com/main/index.php/episodes:20060210</A>
+
+Would you also please try out Symphony and tell us what you think about it?
+
+grtz
+BjornW
+
+
+
+
+
+Vincent Weevers wrote:
+&gt;<i> Hi Bjorn,
+</I>&gt;<i> 
+</I>&gt;&gt;<i> I've been looking into some info about the way that we can handle 
+</I>&gt;&gt;<i> these things without re-inventing the wheel over and over again, maybe 
+</I>&gt;&gt;<i> we should investigate our options a bit more widely and see if there 
+</I>&gt;&gt;<i> are any nicely coded and not too bloated frameworks (Symphony?) or 
+</I>&gt;&gt;<i> libs that can help us with this. On the other hand its also very nice 
+</I>&gt;&gt;<i> if we can setup a system that does exactly as we wish and not be (too) 
+</I>&gt;&gt;<i> depended on external parties.
+</I>&gt;<i> 
+</I>&gt;<i> The wheel gets reinvented an awfull lot of times... A framework can help 
+</I>&gt;<i> us, though indeeed we don't want overhead. I've been googling a bit, I 
+</I>&gt;<i> stumbled upon this: 
+</I>&gt;<i> <A HREF="http://www.mustap.com/phpzone_post_73_top-10-php-mvc-frameworks:">http://www.mustap.com/phpzone_post_73_top-10-php-mvc-frameworks:</A> Symfony 
+</I>&gt;<i> is the winner. We must determine whether it's usable for us. I'm worried 
+</I>&gt;<i> about extensions for Simuze, how that will go with a framework. Another 
+</I>&gt;<i> option would be to 'borrow' some classes from Lussumo.
+</I>&gt;<i> 
+</I>&gt;&gt;<i> The class looks neat. Have you tried to write some tests for it with 
+</I>&gt;&gt;<i> phpunit, already? I will upload my documentation about it on the wiki 
+</I>&gt;&gt;<i> tonight. The diagram is not that clear to me yet, I'll try to work 
+</I>&gt;&gt;<i> with and build further upon it. Don't worry about the symbols and that 
+</I>&gt;&gt;<i> stuff, as long as you use a consistent system and explain it (legenda) 
+</I>&gt;&gt;<i> it will work, because we 'only' need it to communicate our ideas and 
+</I>&gt;&gt;<i> not compete for the best looking diagram ;)
+</I>&gt;<i> 
+</I>&gt;<i> PHPUnit is still waiting for my dive into it, sorry. The diagram is 
+</I>&gt;<i> indeed a bit vague, it's a UML class-diagram and I'm new to that too.
+</I>&gt;<i> 
+</I>&gt;<i> Greetings, Vincent
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Simuze-hackers mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/simuze-hackers">Simuze-hackers at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="http://lists.berlios.de/mailman/listinfo/simuze-hackers">http://lists.berlios.de/mailman/listinfo/simuze-hackers</A>
+</I>&gt;<i> 
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000026.html">[Simuze-hackers] Versions
+</A></li>
+	<LI>Next message: <A HREF="000025.html">[Simuze-hackers] Validator class
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#27">[ date ]</a>
+              <a href="thread.html#27">[ thread ]</a>
+              <a href="subject.html#27">[ subject ]</a>
+              <a href="author.html#27">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/simuze-hackers">More information about the Simuze-hackers
+mailing list</a><br>
+</body></html>

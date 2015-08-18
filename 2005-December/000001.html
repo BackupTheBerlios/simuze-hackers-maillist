@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Simuze-hackers] sm_moderate.php: reject (weigeren nummer)
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/simuze-hackers/2005-December/index.html" >
+   <LINK REL="made" HREF="mailto:simuze-hackers%40lists.berlios.de?Subject=Re%3A%20%5BSimuze-hackers%5D%20sm_moderate.php%3A%20reject%20%28weigeren%20nummer%29&In-Reply-To=%3C005601c5ffd4%24ca7daa30%249600000a%40okl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000002.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Simuze-hackers] sm_moderate.php: reject (weigeren nummer)</H1>
+    <B>triple22.88 at gmail.com</B> 
+    <A HREF="mailto:simuze-hackers%40lists.berlios.de?Subject=Re%3A%20%5BSimuze-hackers%5D%20sm_moderate.php%3A%20reject%20%28weigeren%20nummer%29&In-Reply-To=%3C005601c5ffd4%24ca7daa30%249600000a%40okl%3E"
+       TITLE="[Simuze-hackers] sm_moderate.php: reject (weigeren nummer)">triple22.88 at gmail.com
+       </A><BR>
+    <I>Tue Dec 13 12:03:02 CET 2005</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000002.html">[Simuze-hackers] sm_moderate.php: reject (weigeren nummer)
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#1">[ date ]</a>
+              <a href="thread.html#1">[ thread ]</a>
+              <a href="subject.html#1">[ subject ]</a>
+              <a href="author.html#1">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Ik hoop dat ik er goed aan doe hier code te posten. In ieder geval, hier is een opzet voor de code om een nummer te weigeren, in &quot;admin/sm_moderate.php&quot;. Het volgt de development guidelines op de Simuze wiki niet. Het leek me niet handig, aangezien de rest van sm_moderate.php die guidelines ook niet volgt. Verder staat er nog wat commentaar tussen de code.
+
+===========================
+
+   case 'reject':
+   /*
+   * 1. move file to /data/reject/username/mp3hi and /data/reject/username/mp3lo /data/reject/username/ori
+   * 2. update audio_status and path
+   * 3. insert moderation_history
+   * 4. send feedback 2 user
+   */
+
+   /*
+   - is de status-code &quot;trash&quot; al afgesproken?
+   - ik ga er hier vanuit dat de HOMEDIR_REJECT constante bestaat
+   - in de comments hierboven staat dat het hi-q bestand naar
+     &quot;/data/reject/username/ori&quot; verplaatst moet worden, waarom niet naar &quot;mp3hi&quot;?
+   */
+
+   $status = &quot;trash&quot;;
+   $username = $userinfo['uname'];
+   $fname = $audio['audio_filename'];
+   
+   $new_hi_path = HOMEDIR_REJECT . $username.&quot;/&quot; .HI_QUALITY_DIR .$fname;
+   $old_hi_path = rawurldecode($audio['audio_hi_path']);
+   
+   $new_lo_path = HOMEDIR_REJECT . $username.&quot;/&quot; .LO_QUALITY_DIR .$fname;
+   $old_lo_path = rawurldecode($audio['audio_lo_path']);
+   
+   $description = &quot;Bezwaar en dus nummer weigeren&quot;;
+   
+   if(rename($old_hi_path, $new_hi_path)) {
+    if(rename($old_lo_path, $new_lo_path)) {
+     if(qUpdateAudio($status, $audio_id, rawurlencode($new_hi_path), rawurlencode($new_lo_path)) &gt;= 0) {
+      if(qInsertModerationHistory($audio_id, $moderator['uid'], $status, $description)) {
+       
+       $subject = &quot;Simuze moderatie: nummer geweigerd&quot;; 
+       
+       $mod_msg .= &quot;Dit is een mailtje van Simuze.nl\n\n&quot;;
+       $mod_msg .= &quot;Het bestand $fname is geweigerd door een moderator.\n&quot;;
+       $mod_msg .= &quot;Je kunt binnen ... dagen bezwaar maken door:\n&quot;;
+       $mod_msg .= &quot;- Te bewijzen dat er geen sprake is van schending van copyright.\n&quot;;
+       $mod_msg .= &quot;- Te bewijzen dat je toestemming hebt van de oorspronkelijke auteur om jouw nummer te uploaden.\n&quot;;
+       $mod_msg .= &quot;[hoe maak je bezwaar]\n\n&quot;;
+       $mod_msg .= &quot;Het Simuze team&quot;;
+       
+       /*
+       Zijn er al ideeen hoe men bezwaar kan maken tegen weigering van een nummer?
+       Bijvoorbeeld via email, of via simuze.nl?
+       */
+
+       array_push($feedback, &quot;Moderatie geslaagd.\n&quot;);
+       if(sendFeedback($userinfo['email'], $subject, $mod_msg)) {
+        array_push($feedback, &quot;email met feedback aan gebruiker verzonden&quot;);
+       }
+      }
+      
+     } else { 
+       array_push($log, &quot;update mislukt&quot;);
+     }
+    } else {
+      array_push($log, &quot;Kon bestand niet verplaatsen van $old_lo_path naar $new_lo_path&quot;);
+    }
+   } else {
+     array_push($log, &quot;Kon bestand niet verplaatsen van $old_hi_path naar $new_hi_path&quot;);
+   }
+   break;
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/simuze-hackers/attachments/20051213/2c2c2d73/attachment.html">https://lists.berlios.de/pipermail/simuze-hackers/attachments/20051213/2c2c2d73/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000002.html">[Simuze-hackers] sm_moderate.php: reject (weigeren nummer)
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#1">[ date ]</a>
+              <a href="thread.html#1">[ thread ]</a>
+              <a href="subject.html#1">[ subject ]</a>
+              <a href="author.html#1">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/simuze-hackers">More information about the Simuze-hackers
+mailing list</a><br>
+</body></html>

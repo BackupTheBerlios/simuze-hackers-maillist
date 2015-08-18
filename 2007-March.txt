@@ -1,0 +1,41 @@
+From email at t22.nl  Fri Mar 16 19:21:18 2007
+From: email at t22.nl (Vincent Weevers)
+Date: Fri, 16 Mar 2007 19:21:18 +0100
+Subject: [Simuze-hackers] Simuze2
+Message-ID: <788836a7f023beda2fa6afc8514d8b12@84.80.12.140>
+
+Hi Bjorn and others,
+
+How's life? Development is quite dead. As for my great Pistache: it was once
+my stupid dream and wont become much more probably. But, Simuze2 must be
+realised! It apparently doesn't work when there is no deadline (I keep
+thinking: "I will start tomorrow" - but offcourse I don't). So, Simuze2 is
+now a school project of mine (software engineering), putting some pressure
+to it. I finally found a framework that I like (CakePHP, Symfony etc are too
+complicated to make things easier): Code Igniter. Its base is a loosely
+defined MVC system (models aren't required, for one). I'm now thinking which
+views, models and controllers we need. But first, I want your opinion about
+the user-system of simuze2. My idea: seperate user from artist. Not all
+users are musicians, some users are member of multiple bands, bands can have
+multiple users to manage its content. For the sake of clarity, usernames are
+simply name and surname. You probably heard of OpenID, offcourse we need
+simuze2 to support it (a php library is available). In fact, it should be
+the only way to login. As people can have multiple OpenID's (not that much
+people do), a user should be able to authenticate him/herself with different
+OpenID's. If they do want this, upon first attempt a email is send to
+confirm the OpenID (granting access for this OpenID).
+
+When a user has created a new artist in Simuze2 (or music group, but neither
+one of this names is suitable for every situation), he can invite new or
+existing users to join the group. The first user is some sort of admin.
+
+Please let me know what you want to do, or what you want me to do ;)
+
+Grtz, Vincent
+
+________________________________________________
+Message sent using UebiMiau 2.7.10
+
+
+
+

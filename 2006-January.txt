@@ -1,0 +1,36 @@
+From triple22.88 at gmail.com  Sun Jan  1 14:16:57 2006
+From: triple22.88 at gmail.com (triple22.88 at gmail.com)
+Date: Sun, 1 Jan 2006 14:16:57 +0100
+Subject: [Simuze-hackers] Re: [Simuze-hackers]
+References: <002501c601a1$9e004ca0$9600000a@okl> <43A2DF6A.6010204@bdisfunctional.net> <000701c605b2$076cb480$9600000a@okl> <43A923C9.6020503@bdisfunctional.net> <002501c60640$4b65bc70$9600000a@okl> <43AAAA86.7080103@bdisfunctional.net> <002401c60cb1$02aa7cb0$9600000a@okl> <43B46A46.1070503@bdisfunctional.net>
+Message-ID: <002401c60ed5$a5e5edd0$9600000a@okl>
+
+Hi Bjorn,
+
+> Thanks! I've been planning to work more on Simuze but I had some serious 
+> issues with my main development machine and on top of that I suffer from 
+> some back pains so I'm not so much working on Simuze right now.
+
+I was already wondering why the svn repository was still empty. But now I'd 
+say take it easy, or else you will not be able to work on Simuze ever 
+again... That sounds a bit too negative but you get my point ;).
+
+> You doing stuff really motivates me wanting to do more.
+
+I'm very happy to hear that :).
+
+> Your right about the translation aspect. I'm thinking of either gettext 
+> (PO files a la Wordpress) or using file with a dictionary array (name 
+> value pairs). Any experiences with these? For now I would go for the 
+> latter out of laziness...
+
+A quick look at Vanilla showed me that they use a dictionary array, so let's 
+do it that way ;). I have no experience in this area but when I read 
+something about gettext on php.net (including the comments), I got the idea 
+that implementing gettext isn't always that easy. So the dictionary array 
+seems to be the best solution for now, I agree.
+
+Greetings, Vincent 
+
+
+

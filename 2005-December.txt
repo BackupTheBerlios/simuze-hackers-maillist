@@ -1,0 +1,605 @@
+From triple22.88 at gmail.com  Tue Dec 13 12:03:02 2005
+From: triple22.88 at gmail.com (triple22.88 at gmail.com)
+Date: Tue, 13 Dec 2005 12:03:02 +0100
+Subject: [Simuze-hackers] sm_moderate.php: reject (weigeren nummer)
+Message-ID: <005601c5ffd4$ca7daa30$9600000a@okl>
+
+Ik hoop dat ik er goed aan doe hier code te posten. In ieder geval, hier is een opzet voor de code om een nummer te weigeren, in "admin/sm_moderate.php". Het volgt de development guidelines op de Simuze wiki niet. Het leek me niet handig, aangezien de rest van sm_moderate.php die guidelines ook niet volgt. Verder staat er nog wat commentaar tussen de code.
+
+===========================
+
+   case 'reject':
+   /*
+   * 1. move file to /data/reject/username/mp3hi and /data/reject/username/mp3lo /data/reject/username/ori
+   * 2. update audio_status and path
+   * 3. insert moderation_history
+   * 4. send feedback 2 user
+   */
+
+   /*
+   - is de status-code "trash" al afgesproken?
+   - ik ga er hier vanuit dat de HOMEDIR_REJECT constante bestaat
+   - in de comments hierboven staat dat het hi-q bestand naar
+     "/data/reject/username/ori" verplaatst moet worden, waarom niet naar "mp3hi"?
+   */
+
+   $status = "trash";
+   $username = $userinfo['uname'];
+   $fname = $audio['audio_filename'];
+   
+   $new_hi_path = HOMEDIR_REJECT . $username."/" .HI_QUALITY_DIR .$fname;
+   $old_hi_path = rawurldecode($audio['audio_hi_path']);
+   
+   $new_lo_path = HOMEDIR_REJECT . $username."/" .LO_QUALITY_DIR .$fname;
+   $old_lo_path = rawurldecode($audio['audio_lo_path']);
+   
+   $description = "Bezwaar en dus nummer weigeren";
+   
+   if(rename($old_hi_path, $new_hi_path)) {
+    if(rename($old_lo_path, $new_lo_path)) {
+     if(qUpdateAudio($status, $audio_id, rawurlencode($new_hi_path), rawurlencode($new_lo_path)) >= 0) {
+      if(qInsertModerationHistory($audio_id, $moderator['uid'], $status, $description)) {
+       
+       $subject = "Simuze moderatie: nummer geweigerd"; 
+       
+       $mod_msg .= "Dit is een mailtje van Simuze.nl\n\n";
+       $mod_msg .= "Het bestand $fname is geweigerd door een moderator.\n";
+       $mod_msg .= "Je kunt binnen ... dagen bezwaar maken door:\n";
+       $mod_msg .= "- Te bewijzen dat er geen sprake is van schending van copyright.\n";
+       $mod_msg .= "- Te bewijzen dat je toestemming hebt van de oorspronkelijke auteur om jouw nummer te uploaden.\n";
+       $mod_msg .= "[hoe maak je bezwaar]\n\n";
+       $mod_msg .= "Het Simuze team";
+       
+       /*
+       Zijn er al ideeen hoe men bezwaar kan maken tegen weigering van een nummer?
+       Bijvoorbeeld via email, of via simuze.nl?
+       */
+
+       array_push($feedback, "Moderatie geslaagd.\n");
+       if(sendFeedback($userinfo['email'], $subject, $mod_msg)) {
+        array_push($feedback, "email met feedback aan gebruiker verzonden");
+       }
+      }
+      
+     } else { 
+       array_push($log, "update mislukt");
+     }
+    } else {
+      array_push($log, "Kon bestand niet verplaatsen van $old_lo_path naar $new_lo_path");
+    }
+   } else {
+     array_push($log, "Kon bestand niet verplaatsen van $old_hi_path naar $new_hi_path");
+   }
+   break;
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/simuze-hackers/attachments/20051213/2c2c2d73/attachment.html>
+
+From mailings at bdisfunctional.net  Tue Dec 13 21:12:03 2005
+From: mailings at bdisfunctional.net (Bjorn Wijers)
+Date: Tue, 13 Dec 2005 21:12:03 +0100
+Subject: [Simuze-hackers] sm_moderate.php: reject (weigeren nummer)
+Message-ID: <439F2B13.3020402@bdisfunctional.net>
+
+Hi,
+
+Bedankt voor je code en je mailtje! Ik ga het asap in de site 
+implementeren. Dit is de juiste plek om code te plaatsen of om tech 
+vragen te stellen. Maak je geen zorgen om de guidelines, deze waren 
+vooral opgezet als een doel waar we naartoe willen werken.
+
+ps: Eigenlijk willen we proberen de tech lijst internationaal te gaan 
+maken dus laten we in het vervolg Engels schrijven ;)
+
+ps2: Hoe heet je eigenlijk :)
+
+grtz
+BjornW
+
+
+
+
+> Ik hoop dat ik er goed aan doe hier code te posten. In ieder geval, hier
+> is een opzet voor de code om een nummer te weigeren, in
+> "admin/sm_moderate.php". Het volgt de development guidelines op de Simuze
+> wiki niet. Het leek me niet handig, aangezien de rest van sm_moderate.php
+> die guidelines ook niet volgt. Verder staat er nog wat commentaar tussen
+> de code.
+> 
+> =========================   case 'reject':
+>    /*
+>    * 1. move file to /data/reject/username/mp3hi and
+> /data/reject/username/mp3lo /data/reject/username/ori * 2. update
+> audio_status and path
+>    * 3. insert moderation_history
+>    * 4. send feedback 2 user
+>    */
+> 
+>    /*
+>    - is de status-code "trash" al afgesproken?
+>    - ik ga er hier vanuit dat de HOMEDIR_REJECT constante bestaat
+>    - in de comments hierboven staat dat het hi-q bestand naar
+>      "/data/reject/username/ori" verplaatst moet worden, waarom niet naar
+> "mp3hi"?
+>    */
+> 
+>    $status = "trash";
+>    $username = $userinfo['uname'];
+>    $fname = $audio['audio_filename'];
+> 
+>    $new_hi_path = HOMEDIR_REJECT . $username."/" .HI_QUALITY_DIR .$fname;
+> $old_hi_path = rawurldecode($audio['audio_hi_path']);
+> 
+>    $new_lo_path = HOMEDIR_REJECT . $username."/" .LO_QUALITY_DIR .$fname;
+> $old_lo_path = rawurldecode($audio['audio_lo_path']);
+> 
+>    $description = "Bezwaar en dus nummer weigeren";
+> 
+>    if(rename($old_hi_path, $new_hi_path)) {
+>     if(rename($old_lo_path, $new_lo_path)) {
+>      if(qUpdateAudio($status, $audio_id, rawurlencode($new_hi_path),
+> rawurlencode($new_lo_path)) >= 0) {
+>       if(qInsertModerationHistory($audio_id, $moderator['uid'], $status,
+> $description)) {
+> 
+>        $subject = "Simuze moderatie: nummer geweigerd";
+> 
+>        $mod_msg .= "Dit is een mailtje van Simuze.nl\n\n";
+>        $mod_msg .= "Het bestand $fname is geweigerd door een
+> moderator.\n"; $mod_msg .= "Je kunt binnen ... dagen bezwaar maken
+> door:\n"; $mod_msg .= "- Te bewijzen dat er geen sprake is van
+> schending van copyright.\n"; $mod_msg .= "- Te bewijzen dat je
+> toestemming hebt van de oorspronkelijke auteur om jouw nummer te
+> uploaden.\n"; $mod_msg .= "[hoe maak je bezwaar]\n\n";
+>        $mod_msg .= "Het Simuze team";
+> 
+>        /*
+>        Zijn er al ideeen hoe men bezwaar kan maken tegen weigering van een
+> nummer? Bijvoorbeeld via email, of via simuze.nl?
+>        */
+> 
+>        array_push($feedback, "Moderatie geslaagd.\n");
+>        if(sendFeedback($userinfo['email'], $subject, $mod_msg)) {
+>         array_push($feedback, "email met feedback aan gebruiker verzonden");
+>        }
+>       }
+> 
+>      } else {
+>        array_push($log, "update mislukt");
+>      }
+>     } else {
+>       array_push($log, "Kon bestand niet verplaatsen van $old_lo_path naar
+> $new_lo_path");
+>     }
+>    } else {
+>      array_push($log, "Kon bestand niet verplaatsen van $old_hi_path naar
+> $new_hi_path");
+>    }
+>    break;
+
+
+
+
+From triple22.88 at gmail.com  Thu Dec 15 19:01:46 2005
+From: triple22.88 at gmail.com (triple22.88 at gmail.com)
+Date: Thu, 15 Dec 2005 19:01:46 +0100
+Subject: [Simuze-hackers] XSPF Playlists
+Message-ID: <002501c601a1$9e004ca0$9600000a@okl>
+
+Hi all,
+
+Okay, I'll talk English ;). Sorry, forgot to mention my name: it's Vincent.
+
+Are you planning to put the playlists in a database? It would make deleting and changing the playlists a lot easier. If the player needs to read playlists in the XSPF format, php can dynamically generate such xspf files after quering the database.
+
+Greetings, Vincent
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/simuze-hackers/attachments/20051215/cfaf064d/attachment.html>
+
+From mailings at bdisfunctional.net  Fri Dec 16 16:38:18 2005
+From: mailings at bdisfunctional.net (Bjorn Wijers)
+Date: Fri, 16 Dec 2005 16:38:18 +0100
+Subject: [Simuze-hackers] XSPF Playlists
+In-Reply-To: <002501c601a1$9e004ca0$9600000a@okl>
+References: <002501c601a1$9e004ca0$9600000a@okl>
+Message-ID: <43A2DF6A.6010204@bdisfunctional.net>
+
+Hi Vincent,
+
+Good point.
+
+At the time I wrote the XSPF generator in such a way that it will 
+generate a XSPF file to the filesystem and keep its contents in the db. 
+So we could/can do nifty stuff with this data, for example a 
+recommedation service a la Amazon. The reason to do both is to cache the 
+playlists and lower the load on the db for the not so nifty stuff, ie 
+playing the playlist repeatedly.
+
+So to answer your question: yes the playlist are part of the db but not 
+as a file, but rather as relations. I have the feeling this is stil 
+quite a good balance between playlist management and db access.
+
+To clarify something else: I'm working on organising the Svn repository 
+in such a way that we can develop on Simuze v2 and still fix stuff in 
+Simuze v1. So the repository could be a mess until then. Just so you know.
+
+BTW we would really appreciate any thoughts from you on Simuze v2.
+
+Are you using Simuze v1?
+
+grtz
+BjornW
+
+
+triple22.88 at gmail.com wrote:
+> Hi all,
+>  
+> Okay, I'll talk English ;). Sorry, forgot to mention my name: it's Vincent.
+>  
+> Are you planning to put the playlists in a database? It would make 
+> deleting and changing the playlists a lot easier. If the player needs to 
+> read playlists in the XSPF format, php can dynamically generate such 
+> xspf files after quering the database.
+>  
+> Greetings, Vincent
+
+
+From triple22.88 at gmail.com  Tue Dec 20 23:09:18 2005
+From: triple22.88 at gmail.com (triple22.88 at gmail.com)
+Date: Tue, 20 Dec 2005 23:09:18 +0100
+Subject: [Simuze-hackers] XSPF Playlists
+References: <002501c601a1$9e004ca0$9600000a@okl> <43A2DF6A.6010204@bdisfunctional.net>
+Message-ID: <000701c605b2$076cb480$9600000a@okl>
+
+Hello Bjorn,
+
+Sounds perfectly balanced to me. But, correct me if I'm wrong, if you want 
+to update the playlist, you would need to change the contents of the db and 
+also generate a new XSPF file.
+
+And about the Simuze versions: I didn't know that there are different 
+versions, and what their purpose is. And at this moment the svn repository 
+seems pretty empty. Please tell me more about this (or is there something on 
+the internet that I can read?)
+
+Greetings, Vincent W.
+
+PS. Can you also tell me something about the people involved in Simuze (for 
+example, how many?), if you don't mind?
+
+----- Original Message ----- 
+From: "Bjorn Wijers" <mailings at bdisfunctional.net>
+To: <triple22.88 at gmail.com>
+Cc: <simuze-hackers at lists.berlios.de>
+Sent: Friday, December 16, 2005 4:38 PM
+Subject: Re: [Simuze-hackers] XSPF Playlists
+
+
+> Hi Vincent,
+>
+> Good point.
+>
+> At the time I wrote the XSPF generator in such a way that it will generate 
+> a XSPF file to the filesystem and keep its contents in the db. So we 
+> could/can do nifty stuff with this data, for example a recommedation 
+> service a la Amazon. The reason to do both is to cache the playlists and 
+> lower the load on the db for the not so nifty stuff, ie playing the 
+> playlist repeatedly.
+>
+> So to answer your question: yes the playlist are part of the db but not as 
+> a file, but rather as relations. I have the feeling this is stil quite a 
+> good balance between playlist management and db access.
+>
+> To clarify something else: I'm working on organising the Svn repository in 
+> such a way that we can develop on Simuze v2 and still fix stuff in Simuze 
+> v1. So the repository could be a mess until then. Just so you know.
+>
+> BTW we would really appreciate any thoughts from you on Simuze v2.
+>
+> Are you using Simuze v1?
+>
+> grtz
+> BjornW
+>
+>
+> triple22.88 at gmail.com wrote:
+>> Hi all,
+>>  Okay, I'll talk English ;). Sorry, forgot to mention my name: it's 
+>> Vincent.
+>>  Are you planning to put the playlists in a database? It would make 
+>> deleting and changing the playlists a lot easier. If the player needs to 
+>> read playlists in the XSPF format, php can dynamically generate such xspf 
+>> files after quering the database.
+>>  Greetings, Vincent 
+
+
+
+From mailings at bdisfunctional.net  Wed Dec 21 10:43:37 2005
+From: mailings at bdisfunctional.net (Bjorn Wijers)
+Date: Wed, 21 Dec 2005 10:43:37 +0100
+Subject: [Simuze-hackers] XSPF Playlists
+In-Reply-To: <000701c605b2$076cb480$9600000a@okl>
+References: <002501c601a1$9e004ca0$9600000a@okl> <43A2DF6A.6010204@bdisfunctional.net> <000701c605b2$076cb480$9600000a@okl>
+Message-ID: <43A923C9.6020503@bdisfunctional.net>
+
+Hi Vincent,
+
+> Sounds perfectly balanced to me. But, correct me if I'm wrong, if you 
+> want to update the playlist, you would need to change the contents of 
+> the db and also generate a new XSPF file.
+
+Yep, thats true. But at this point users cannot change the contents of 
+the playlist, so in the end we probably have to investigate what works 
+better. For now this seems to work quite well.
+
+> And about the Simuze versions: I didn't know that there are different 
+> versions, and what their purpose is.
+
+Well, this was discussed offlist between Marten and me, so nobody knew 
+about it until now ;).
+
+The reason for having two versions is that Simuze v1 is the one that we 
+use at http:/www.simuze.nl/live and the Simuze v2 will be its successor.
+
+The differences:
+
+Simuze v1 is made in php4 and more or less hacked together. It works but 
+its a pain to maintain or update this version. For example we have glued 
+some code between Simuze and Wordpress, created a cron based deamon that 
+takes care of the music encoding/anti-virus stuff etc. It works for us, 
+we know what to do, but if anybody else wants to help out it's almost 
+impossible for them. So we want to maintain version 1 and start with the 
+development of version 2 and learn from our misstakes.
+
+Simuze v2 will probably be built in php5 and we will use a more OO based 
+approach. One of the things we will do this time is focus on the core 
+functionality of Simuze and implement some sort of plugin system for 
+everything outside this core.
+
+As you might notice a lot is still open for discussion. I would like to 
+discuss this further so any ideas, plans feel free...
+
+> And at this moment the svn 
+> repository seems pretty empty. 
+
+Correct. I made a misstake and this resulted in a not usable SVN repos. 
+Berlios helped me out and the SVN repos can be used again. I will import 
+Simuze v1 back in again tomorrow and also create a Simuze v2 branch.
+
+
+Please tell me more about this (or is
+> there something on the internet that I can read?)
+
+There is getting more and more at the Simuze Wiki 
+(http://simuze.berlios.de) about the proposed ideas and methodology. 
+Feel free to send comments on this list or add your thoughts to the wiki.
+
+
+> PS. Can you also tell me something about the people involved in Simuze 
+> (for example, how many?), if you don't mind?
+
+No problem.
+
+We started with two: Marten Timan and me. After a while we had some 
+people on the old mailinglist who wanted to help out, but we had no idea 
+how to do this considering the state of Simuze, so in the end this kinda 
+faded away (Can't blame them..) and we're now with three? If you would 
+like to help out with Simuze v2 ;)
+
+If you don't mind me asking, can you tell a bit more about yourself like 
+skills, preferences, favourite pancake ;)
+
+grtz
+BjornW
+
+
+
+
+From triple22.88 at gmail.com  Wed Dec 21 16:07:41 2005
+From: triple22.88 at gmail.com (triple22.88 at gmail.com)
+Date: Wed, 21 Dec 2005 16:07:41 +0100
+Subject: [Simuze-hackers] Re: [Simuze-hackers]
+References: <002501c601a1$9e004ca0$9600000a@okl> <43A2DF6A.6010204@bdisfunctional.net> <000701c605b2$076cb480$9600000a@okl> <43A923C9.6020503@bdisfunctional.net>
+Message-ID: <002501c60640$4b65bc70$9600000a@okl>
+
+Hi Bjorn,
+
+A couple of months ago I send a email to Marten, describing my interest in 
+Simuze and some other stuff. Reading it again now, it sounds a bit to 
+enthousiastic. For a couple of months I didn't do anything with Simuze, so 
+the best thing is to just forget about that email ;). Anyway, I sorta 
+regained my interest and became a member of the simuze-hackers list. I'm 
+sorry to hear that there are not so much Simuze developers, but let's try to 
+make the best of it.
+
+> The reason for having two versions is that Simuze v1 is the one that we 
+> use at http:/www.simuze.nl/live and the Simuze v2 will be its successor.
+
+What will be the priority? v1 or v2? And will you (or may I say 'we') start 
+with v2 from scratch?
+
+> Simuze v2 will probably be built in php5 and we will use a more OO based 
+> approach. One of the things we will do this time is focus on the core 
+> functionality of Simuze and implement some sort of plugin system for 
+> everything outside this core.
+
+Sounds good, but it's going to take some time...
+
+And this plugin system, couldn't it simply be based on events. For example, 
+if someone wants to add a RSS function, he would write this:
+
+----------------------
+
+     $Simuze->addHandler('onPlaylistUpdate','updateRSS');
+
+     function updateRSS()
+     {
+          //generate new rss file, etcetera
+     }
+
+----------------------
+
+> If you don't mind me asking, can you tell a bit more about yourself like 
+> skills, preferences, favourite pancake ;)
+
+Sure. In short:
+
+I...
+- am 17 years old.
+- am still at school, Atheneum 5
+- used to play drums, nowadays I play in a local percussionband.
+- play volleyball, training and competition.
+- like a wide variety of music
+- like my computer.
+- started a bit of coding a couple of years ago, for fun.
+- know HTML, some Photoshop, Javascript, VBScript (that was before I knew it 
+sucked), bit of CSS, XML.
+- also recently started with PHP and discovered that it is not so hard as I 
+thought it would be.
+- am working on a msn messenger client in javascript and php (so far, I can 
+login, and I'm kinda proud of this 'secret' project)
+- want to study something related to the more creative side of information 
+technologies, after finishing highschool.
+- like pancakes very much, especially those with raisins and apples in it 
+;).
+
+And I'm willing to help you with Simuze, I'll do my best.
+
+greetings,
+
+Vincent Weevers 
+
+
+
+From mailings at bdisfunctional.net  Thu Dec 22 14:30:46 2005
+From: mailings at bdisfunctional.net (Bjorn Wijers)
+Date: Thu, 22 Dec 2005 14:30:46 +0100
+Subject: [Simuze-hackers] Re: [Simuze-hackers]
+In-Reply-To: <002501c60640$4b65bc70$9600000a@okl>
+References: <002501c601a1$9e004ca0$9600000a@okl> <43A2DF6A.6010204@bdisfunctional.net> <000701c605b2$076cb480$9600000a@okl> <43A923C9.6020503@bdisfunctional.net> <002501c60640$4b65bc70$9600000a@okl>
+Message-ID: <43AAAA86.7080103@bdisfunctional.net>
+
+Hi Vincent
+
+> A couple of months ago I send a email to Marten, describing my interest 
+> in Simuze and some other stuff. Reading it again now, it sounds a bit to 
+> enthousiastic. For a couple of months I didn't do anything with Simuze, 
+> so the best thing is to just forget about that email ;). Anyway, I sorta 
+> regained my interest and became a member of the simuze-hackers list. I'm 
+> sorry to hear that there are not so much Simuze developers, but let's 
+> try to make the best of it.
+
+As more code gets developed and becomes useful I expect more people to 
+get interested in this project. I mean most Open Source projects start 
+out with just one person and usually don't grow that much bigger...so 
+we'll see.
+
+>> The reason for having two versions is that Simuze v1 is the one that 
+>> we use at http:/www.simuze.nl/live and the Simuze v2 will be its 
+>> successor.
+> 
+> What will be the priority? v1 or v2? And will you (or may I say 'we') 
+> start with v2 from scratch?
+
+V1 will be mostly Marten's and my responsibility. Version 2 is open for 
+all and I want to start from scratch. I have been looking at Vanilla 
+(http://getvanilla.com) and I kinda like the way it has been programmed, 
+so we might even built upon some classes from Vanilla if that's 
+convienent ;)
+
+>> Simuze v2 will probably be built in php5 and we will use a more OO 
+>> based approach. One of the things we will do this time is focus on the 
+>> core functionality of Simuze and implement some sort of plugin system 
+>> for everything outside this core.
+> 
+> Sounds good, but it's going to take some time...
+
+Yeah, but what would I else be doing? Have a social life...tsss come on :)
+
+
+> And this plugin system, couldn't it simply be based on events. For 
+> example, if someone wants to add a RSS function, he would write this:
+> 
+> ----------------------
+> 
+>     $Simuze->addHandler('onPlaylistUpdate','updateRSS');
+> 
+>     function updateRSS()
+>     {
+>          //generate new rss file, etcetera
+>     }
+> 
+> ----------------------
+
+Thats a possible solution. I honestlt must say that I don't have a clue 
+yet on how to create an easy to use plugin system, but I'm sure we will 
+come up with a nice solution.
+
+> And I'm willing to help you with Simuze, I'll do my best.
+
+Welcome aboard :)!
+
+
+From triple22.88 at gmail.com  Thu Dec 29 20:49:40 2005
+From: triple22.88 at gmail.com (triple22.88 at gmail.com)
+Date: Thu, 29 Dec 2005 20:49:40 +0100
+Subject: [Simuze-hackers] Re: [Simuze-hackers]
+References: <002501c601a1$9e004ca0$9600000a@okl> <43A2DF6A.6010204@bdisfunctional.net> <000701c605b2$076cb480$9600000a@okl> <43A923C9.6020503@bdisfunctional.net> <002501c60640$4b65bc70$9600000a@okl> <43AAAA86.7080103@bdisfunctional.net>
+Message-ID: <002401c60cb1$02aa7cb0$9600000a@okl>
+
+Hello Bjorn,
+
+I have written a simple page on the wiki 
+(http://simuze.berlios.de/wiki/index.php/Development:future), thought it 
+would be convenient to write down the basic ideas. I also presumed that 
+Simuze v2 will be implementing some language/translation system. And I wish 
+you happy holidays, best wishes etc etc.
+
+Greetings,
+
+Vincent 
+
+
+
+From mailings at bdisfunctional.net  Thu Dec 29 23:59:18 2005
+From: mailings at bdisfunctional.net (Bjorn Wijers)
+Date: Thu, 29 Dec 2005 23:59:18 +0100
+Subject: [Simuze-hackers] Re: [Simuze-hackers]
+In-Reply-To: <002401c60cb1$02aa7cb0$9600000a@okl>
+References: <002501c601a1$9e004ca0$9600000a@okl> <43A2DF6A.6010204@bdisfunctional.net> <000701c605b2$076cb480$9600000a@okl> <43A923C9.6020503@bdisfunctional.net> <002501c60640$4b65bc70$9600000a@okl> <43AAAA86.7080103@bdisfunctional.net> <002401c60cb1$02aa7cb0$9600000a@okl>
+Message-ID: <43B46A46.1070503@bdisfunctional.net>
+
+Hi Vincent.
+
+Thanks! I've been planning to work more on Simuze but I had some serious 
+issues with my main development machine and on top of that I suffer from 
+some back pains so I'm not so much working on Simuze right now.
+
+You doing stuff really motivates me wanting to do more.
+
+Your right about the translation aspect. I'm thinking of either gettext 
+(PO files a la Wordpress) or using file with a dictionary array (name 
+value pairs). Any experiences with these? For now I would go for the 
+latter out of laziness...
+
+Best wishes and see ya next year ;)
+
+grtz
+BjornW
+
+
+triple22.88 at gmail.com wrote:
+> Hello Bjorn,
+> 
+> I have written a simple page on the wiki 
+> (http://simuze.berlios.de/wiki/index.php/Development:future), thought it 
+> would be convenient to write down the basic ideas. I also presumed that 
+> Simuze v2 will be implementing some language/translation system. And I 
+> wish you happy holidays, best wishes etc etc.
+> 
+> Greetings,
+> 
+> Vincent
+
+

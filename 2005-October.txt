@@ -1,0 +1,12 @@
+From bjorn at simuze.nl  Sat Oct 15 16:40:18 2005
+From: bjorn at simuze.nl (Bjorn Wijers)
+Date: Sat, 15 Oct 2005 16:40:18 +0200
+Subject: [Simuze-hackers] First post
+Message-ID: <435114D2.2010201@simuze.nl>
+
+This is the first post to the simuze-hackers list. It's a test.
+
+grtz,
+BjornW
+
+

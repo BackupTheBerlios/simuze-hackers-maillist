@@ -1,0 +1,16 @@
+From bjorn at simuze.nl  Thu Apr 13 11:54:53 2006
+From: bjorn at simuze.nl (Bjorn Wijers)
+Date: Thu, 13 Apr 2006 11:54:53 +0200
+Subject: [Simuze-hackers] audio fingerprinting
+Message-ID: <443E1FED.80303@simuze.nl>
+
+Check this:
+
+http://blog.musicbrainz.org/archives/2006/03/new_fingerprint.html
+
+I would love to build this into the Simuze v2...
+
+grtz
+BjornW
+
+

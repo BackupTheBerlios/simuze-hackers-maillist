@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Simuze-hackers] Re: [Simuze-hackers]
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/simuze-hackers/2005-December/index.html" >
+   <LINK REL="made" HREF="mailto:simuze-hackers%40lists.berlios.de?Subject=Re%3A%20%5BSimuze-hackers%5D%20Re%3A%20%5BSimuze-hackers%5D&In-Reply-To=%3C002501c60640%244b65bc70%249600000a%40okl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000006.html">
+   <LINK REL="Next"  HREF="000008.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Simuze-hackers] Re: [Simuze-hackers]</H1>
+    <B>triple22.88 at gmail.com</B> 
+    <A HREF="mailto:simuze-hackers%40lists.berlios.de?Subject=Re%3A%20%5BSimuze-hackers%5D%20Re%3A%20%5BSimuze-hackers%5D&In-Reply-To=%3C002501c60640%244b65bc70%249600000a%40okl%3E"
+       TITLE="[Simuze-hackers] Re: [Simuze-hackers]">triple22.88 at gmail.com
+       </A><BR>
+    <I>Wed Dec 21 16:07:41 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000006.html">[Simuze-hackers] XSPF Playlists
+</A></li>
+        <LI>Next message: <A HREF="000008.html">[Simuze-hackers] Re: [Simuze-hackers]
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#7">[ date ]</a>
+              <a href="thread.html#7">[ thread ]</a>
+              <a href="subject.html#7">[ subject ]</a>
+              <a href="author.html#7">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Bjorn,
+
+A couple of months ago I send a email to Marten, describing my interest in 
+Simuze and some other stuff. Reading it again now, it sounds a bit to 
+enthousiastic. For a couple of months I didn't do anything with Simuze, so 
+the best thing is to just forget about that email ;). Anyway, I sorta 
+regained my interest and became a member of the simuze-hackers list. I'm 
+sorry to hear that there are not so much Simuze developers, but let's try to 
+make the best of it.
+
+&gt;<i> The reason for having two versions is that Simuze v1 is the one that we 
+</I>&gt;<i> use at http:/www.simuze.nl/live and the Simuze v2 will be its successor.
+</I>
+What will be the priority? v1 or v2? And will you (or may I say 'we') start 
+with v2 from scratch?
+
+&gt;<i> Simuze v2 will probably be built in php5 and we will use a more OO based 
+</I>&gt;<i> approach. One of the things we will do this time is focus on the core 
+</I>&gt;<i> functionality of Simuze and implement some sort of plugin system for 
+</I>&gt;<i> everything outside this core.
+</I>
+Sounds good, but it's going to take some time...
+
+And this plugin system, couldn't it simply be based on events. For example, 
+if someone wants to add a RSS function, he would write this:
+
+----------------------
+
+     $Simuze-&gt;addHandler('onPlaylistUpdate','updateRSS');
+
+     function updateRSS()
+     {
+          //generate new rss file, etcetera
+     }
+
+----------------------
+
+&gt;<i> If you don't mind me asking, can you tell a bit more about yourself like 
+</I>&gt;<i> skills, preferences, favourite pancake ;)
+</I>
+Sure. In short:
+
+I...
+- am 17 years old.
+- am still at school, Atheneum 5
+- used to play drums, nowadays I play in a local percussionband.
+- play volleyball, training and competition.
+- like a wide variety of music
+- like my computer.
+- started a bit of coding a couple of years ago, for fun.
+- know HTML, some Photoshop, Javascript, VBScript (that was before I knew it 
+sucked), bit of CSS, XML.
+- also recently started with PHP and discovered that it is not so hard as I 
+thought it would be.
+- am working on a msn messenger client in javascript and php (so far, I can 
+login, and I'm kinda proud of this 'secret' project)
+- want to study something related to the more creative side of information 
+technologies, after finishing highschool.
+- like pancakes very much, especially those with raisins and apples in it 
+;).
+
+And I'm willing to help you with Simuze, I'll do my best.
+
+greetings,
+
+Vincent Weevers 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000006.html">[Simuze-hackers] XSPF Playlists
+</A></li>
+	<LI>Next message: <A HREF="000008.html">[Simuze-hackers] Re: [Simuze-hackers]
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#7">[ date ]</a>
+              <a href="thread.html#7">[ thread ]</a>
+              <a href="subject.html#7">[ subject ]</a>
+              <a href="author.html#7">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/simuze-hackers">More information about the Simuze-hackers
+mailing list</a><br>
+</body></html>

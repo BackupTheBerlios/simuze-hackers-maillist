@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Simuze-hackers] Simuze != Silence
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/simuze-hackers/2006-August/index.html" >
+   <LINK REL="made" HREF="mailto:simuze-hackers%40lists.berlios.de?Subject=Re%3A%20%5BSimuze-hackers%5D%20Simuze%20%21%3D%20Silence&In-Reply-To=%3Cop.td9t8merax1nam%40t22.lan%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000030.html">
+   <LINK REL="Next"  HREF="000032.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Simuze-hackers] Simuze != Silence</H1>
+    <B>Vincent Weevers</B> 
+    <A HREF="mailto:simuze-hackers%40lists.berlios.de?Subject=Re%3A%20%5BSimuze-hackers%5D%20Simuze%20%21%3D%20Silence&In-Reply-To=%3Cop.td9t8merax1nam%40t22.lan%3E"
+       TITLE="[Simuze-hackers] Simuze != Silence">email at t22.nl
+       </A><BR>
+    <I>Mon Aug 14 13:30:11 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000030.html">[Simuze-hackers] Simuze != Silence
+</A></li>
+        <LI>Next message: <A HREF="000032.html">[Simuze-hackers] Pistache
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#31">[ date ]</a>
+              <a href="thread.html#31">[ thread ]</a>
+              <a href="subject.html#31">[ subject ]</a>
+              <a href="author.html#31">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> You make me very curious...where can we see this system in action?
+</I>
+For now, it's only available to me, as the actual coding is no way near  
+finished. I've taken a lot of time just to draw the concept. And this  
+concept is done for lets say 75%. At this moment, I have to find a proper  
+templating system. Smarty is cool, but not suitable for Pistache. XSL  
+seems way to complicated, although it fit's my needs better than Smarty.  
+Yet again, I choose my own system.
+
+As with more CMS's, Pistache content is hierachially structured. The nodes  
+can be articles, comments, products, but also files (most CMS's separate  
+files from other content, I don't like it). Their metadata requirements  
+and templates are specified by a content type (similar to the eZ Publish  
+CMS). You can request the nodes per URL. URL's must be:
+- meaningfull to the user (human readable)
+- a reflection of the site's structure
+- navigable (by chopping off the last part of a URL, you should end up one  
+level higher in the site).
+Therefore, the nodes all have a path. So, with the URL  
+'pistache.nl/articles/introduction' you request the node having the path  
+'/articles/introduction'. Using an extended XPath-query (XPath doesn't  
+support sorting, Pistache does. Also, with Pistache you can feed a node  
+dynamic data), you can be very specific.
+
+URL: 'pistache.nl/articles/@author==T22'
+Returns nodeset of all children of '/articles', where the author is T22.
+
+Next thing: the use of content types.
+URL: 'pistache.nl/articles/@author==T22.rss'
+Returns RSS feed of all children of '/articles', where the author is T22.
+
+The template of content-type 'rss' will look something like this  
+(simplified):
+
+&lt;rss&gt;		
+&lt;channel&gt;
+&lt;title&gt;{@title}&lt;/title&gt;
+&lt;link&gt;{$url}&lt;/link&gt;
+&lt;description&gt;{@description}&lt;/description&gt;
+&lt;pistache path=&quot;*&quot;&gt;
+   &lt;item&gt;
+     &lt;title&gt;{@title}&lt;/title&gt;
+     &lt;link&gt;{$url}&lt;/link&gt;
+     &lt;description&gt;{@description}&lt;/description&gt;
+     &lt;pubDate&gt;{/$now}&lt;/pubDate&gt;
+   &lt;/item&gt;
+&lt;/pistache&gt;
+&lt;/rss&gt;
+
+To clarify, the @ prefix is for an atrribute (a node can have as much  
+atrributes/metadata as you want), the $ prefix is for variables. $url is  
+not an atrribute stored in the database, but a variable that can change,  
+for example when change your domainname. I don't want too much variables  
+like $now etc, it has to stay simple. &lt;pistache path=&quot;*&quot;&gt;&lt;/pistache&gt; is a  
+loop, for each child an item element is created. Now, a filled template  
+(URL: 'pistache.nl/articles/@author==T22.rss').
+
+&lt;rss&gt;		
+&lt;channel&gt;
+&lt;title&gt;Articles&lt;/title&gt;
+&lt;link&gt;<A HREF="http://pistache.nl/articles&lt;/link">http://pistache.nl/articles&lt;/link</A>&gt;
+&lt;description&gt;Writings about Pistache...&lt;/description&gt;
+&lt;item&gt;
+   &lt;title&gt;Introduction&lt;/title&gt;
+   &lt;link&gt;<A HREF="http://pistache.nl/articles/introduction&lt;/link">http://pistache.nl/articles/introduction&lt;/link</A>&gt;
+   &lt;description&gt;Introducing: Pistache CMS, your ...&lt;/description&gt;
+   &lt;pubDate&gt;Mon, 14 Aug 2006 13:15:00 +0100&lt;/pubDate&gt;
+&lt;/item&gt;
+&lt;item&gt;
+   &lt;title&gt;Similar systems&lt;/title&gt;
+   &lt;link&gt;<A HREF="http://pistache.nl/articles/similar-systems&lt;/link">http://pistache.nl/articles/similar-systems&lt;/link</A>&gt;
+   &lt;description&gt;There are a lot of great CMS's out there, ...&lt;/description&gt;
+   &lt;pubDate&gt;Tue, 15 Aug 2006 14:00:00 +0100&lt;/pubDate&gt;
+&lt;/item&gt;
+&lt;/channel&gt;
+&lt;/rss&gt;
+
+So.. There is a lot more to talk about (the query language to start with),  
+but please give your opinion about this part.
+
+PS. To stay cool, I was thinking of enabling this kind of features:
+URL: 'pistache.nl/audio/one.mp3/@title'
+This requires an attribute filter/moderator, a plugin that can read ID3  
+metadata from a mp3.
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000030.html">[Simuze-hackers] Simuze != Silence
+</A></li>
+	<LI>Next message: <A HREF="000032.html">[Simuze-hackers] Pistache
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#31">[ date ]</a>
+              <a href="thread.html#31">[ thread ]</a>
+              <a href="subject.html#31">[ subject ]</a>
+              <a href="author.html#31">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/simuze-hackers">More information about the Simuze-hackers
+mailing list</a><br>
+</body></html>

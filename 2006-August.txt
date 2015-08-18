@@ -1,0 +1,179 @@
+From email at t22.nl  Mon Aug 14 00:15:35 2006
+From: email at t22.nl (Vincent Weevers)
+Date: Mon, 14 Aug 2006 00:15:35 +0200
+Subject: [Simuze-hackers] Simuze != Silence
+Message-ID: <op.td8tf9d0ax1nam@t22.lan>
+
+Hey Bjorn,
+
+Nothing but silence lately, sorry. I'm working on my own CMS.. I know I  
+shouldn't be developing yet another CMS because "mine obviously can and  
+will be better" instead of improving some of the great CMS's (Drupal for  
+instance). Probably, I'm just too stubborn. Anyway, during the last past  
+weeks I've managed to think up a system that is really flexible. Without  
+being a self-advertiser, it's true. I won't go into detail about it,  
+partially because it's partially still a concept, and also because I don't  
+want to disturb you with yet another reinvented wheel. But, here it comes,  
+Simuze v2 could be brought to life easily, on top of Pistache CMS (as I  
+temporarily named it). With the Symphony framework it would not be as  
+easy. You might not agree on my ideas, sadly I can't think up a better way  
+for Simuze v2 to awake. I don't know how you visualise Simuze v2 right  
+now, but I guess I already chose my path.
+
+Grtz, Vince.
+
+PS. The classification 'CMS' doesn't represent what it really is, but I  
+have yet to come up with a better one.
+
+
+From mailings at bdisfunctional.net  Mon Aug 14 10:20:29 2006
+From: mailings at bdisfunctional.net (Bjorn Wijers)
+Date: Mon, 14 Aug 2006 10:20:29 +0200
+Subject: [Simuze-hackers] Simuze != Silence
+In-Reply-To: <op.td8tf9d0ax1nam@t22.lan>
+References: <op.td8tf9d0ax1nam@t22.lan>
+Message-ID: <44E0324D.9050806@bdisfunctional.net>
+
+You make me very curious...where can we see this system in action?
+
+Vincent Weevers wrote:
+> Hey Bjorn,
+> 
+> Nothing but silence lately, sorry. I'm working on my own CMS.. I know I  
+> shouldn't be developing yet another CMS because "mine obviously can and  
+> will be better" instead of improving some of the great CMS's (Drupal for  
+> instance). Probably, I'm just too stubborn. Anyway, during the last past  
+> weeks I've managed to think up a system that is really flexible. Without  
+> being a self-advertiser, it's true. I won't go into detail about it,  
+> partially because it's partially still a concept, and also because I don't  
+> want to disturb you with yet another reinvented wheel. But, here it comes,  
+> Simuze v2 could be brought to life easily, on top of Pistache CMS (as I  
+> temporarily named it). With the Symphony framework it would not be as  
+> easy. You might not agree on my ideas, sadly I can't think up a better way  
+> for Simuze v2 to awake. I don't know how you visualise Simuze v2 right  
+> now, but I guess I already chose my path.
+> 
+> Grtz, Vince.
+> 
+> PS. The classification 'CMS' doesn't represent what it really is, but I  
+> have yet to come up with a better one.
+> _______________________________________________
+> Simuze-hackers mailing list
+> Simuze-hackers at lists.berlios.de
+> http://bat.berlios.de/mailman/listinfo/simuze-hackers
+> 
+
+
+From email at t22.nl  Mon Aug 14 13:30:11 2006
+From: email at t22.nl (Vincent Weevers)
+Date: Mon, 14 Aug 2006 13:30:11 +0200
+Subject: [Simuze-hackers] Simuze != Silence
+In-Reply-To: <44E0324D.9050806@bdisfunctional.net>
+References: <op.td8tf9d0ax1nam@t22.lan> <44E0324D.9050806@bdisfunctional.net>
+Message-ID: <op.td9t8merax1nam@t22.lan>
+
+> You make me very curious...where can we see this system in action?
+
+For now, it's only available to me, as the actual coding is no way near  
+finished. I've taken a lot of time just to draw the concept. And this  
+concept is done for lets say 75%. At this moment, I have to find a proper  
+templating system. Smarty is cool, but not suitable for Pistache. XSL  
+seems way to complicated, although it fit's my needs better than Smarty.  
+Yet again, I choose my own system.
+
+As with more CMS's, Pistache content is hierachially structured. The nodes  
+can be articles, comments, products, but also files (most CMS's separate  
+files from other content, I don't like it). Their metadata requirements  
+and templates are specified by a content type (similar to the eZ Publish  
+CMS). You can request the nodes per URL. URL's must be:
+- meaningfull to the user (human readable)
+- a reflection of the site's structure
+- navigable (by chopping off the last part of a URL, you should end up one  
+level higher in the site).
+Therefore, the nodes all have a path. So, with the URL  
+'pistache.nl/articles/introduction' you request the node having the path  
+'/articles/introduction'. Using an extended XPath-query (XPath doesn't  
+support sorting, Pistache does. Also, with Pistache you can feed a node  
+dynamic data), you can be very specific.
+
+URL: 'pistache.nl/articles/@author==T22'
+Returns nodeset of all children of '/articles', where the author is T22.
+
+Next thing: the use of content types.
+URL: 'pistache.nl/articles/@author==T22.rss'
+Returns RSS feed of all children of '/articles', where the author is T22.
+
+The template of content-type 'rss' will look something like this  
+(simplified):
+
+<rss>		
+<channel>
+<title>{@title}</title>
+<link>{$url}</link>
+<description>{@description}</description>
+<pistache path="*">
+   <item>
+     <title>{@title}</title>
+     <link>{$url}</link>
+     <description>{@description}</description>
+     <pubDate>{/$now}</pubDate>
+   </item>
+</pistache>
+</rss>
+
+To clarify, the @ prefix is for an atrribute (a node can have as much  
+atrributes/metadata as you want), the $ prefix is for variables. $url is  
+not an atrribute stored in the database, but a variable that can change,  
+for example when change your domainname. I don't want too much variables  
+like $now etc, it has to stay simple. <pistache path="*"></pistache> is a  
+loop, for each child an item element is created. Now, a filled template  
+(URL: 'pistache.nl/articles/@author==T22.rss').
+
+<rss>		
+<channel>
+<title>Articles</title>
+<link>http://pistache.nl/articles</link>
+<description>Writings about Pistache...</description>
+<item>
+   <title>Introduction</title>
+   <link>http://pistache.nl/articles/introduction</link>
+   <description>Introducing: Pistache CMS, your ...</description>
+   <pubDate>Mon, 14 Aug 2006 13:15:00 +0100</pubDate>
+</item>
+<item>
+   <title>Similar systems</title>
+   <link>http://pistache.nl/articles/similar-systems</link>
+   <description>There are a lot of great CMS's out there, ...</description>
+   <pubDate>Tue, 15 Aug 2006 14:00:00 +0100</pubDate>
+</item>
+</channel>
+</rss>
+
+So.. There is a lot more to talk about (the query language to start with),  
+but please give your opinion about this part.
+
+PS. To stay cool, I was thinking of enabling this kind of features:
+URL: 'pistache.nl/audio/one.mp3/@title'
+This requires an attribute filter/moderator, a plugin that can read ID3  
+metadata from a mp3.
+
+
+From email at t22.nl  Mon Aug 21 11:43:36 2006
+From: email at t22.nl (Vincent Weevers)
+Date: Mon, 21 Aug 2006 11:43:36 +0200
+Subject: [Simuze-hackers] Pistache
+Message-ID: <op.temnyyipax1nam@t22.lan>
+
+A quick follow-up...
+
+The Pistache design changed for the better, to integrate Smarty. But I  
+just discovered PHPTAL, another templating system. Pistache is moving,  
+slow but steady ;).
+
+grtz, Vincent
+
+-- 
+Gemaakt met Opera's revolutionaire e-mailprogramma:  
+http://www.opera.com/mail/
+
+
